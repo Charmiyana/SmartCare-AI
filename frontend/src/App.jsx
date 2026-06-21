@@ -61,7 +61,7 @@ function App() {
       // INJECT NEW DETAILS INTO CONTEXT FOR AI
       const promptWithContext = `${textToSend} \n(Context: Patient Age: ${user.age}, Weight: ${user.weight}kg, Height: ${user.height}cm, Blood Group: ${user.bloodGroup})`;
 
-      const response = await axios.post('http://dr-care-backend.onrender.com/symptoms/analyze', { 
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/symptoms/analyze`, { 
         user_name: user.name, 
         text: promptWithContext 
       });
@@ -117,7 +117,7 @@ function App() {
     formData.append("user_name", user.name); 
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/vision/analyze', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/vision/analyze`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
       const result = response.data.analysis;
       setPanelContent(prev => ({ ...prev, text: result, loading: false }));
       setMessages(prev => [...prev, { role: 'bot', text: "Report analyzed and saved." }]);
